@@ -2,7 +2,7 @@ install:
 	poetry install
 
 gendiff:
-	poetry run gendiff -h
+	poetry run gendiff
 
 build:
 	poetry build
@@ -14,6 +14,6 @@ package-install:
 	python3 -m pip install --user dist/*.whl
 
 lint:
-	poetry run flake8 brain_games
+	poetry run flake8 gendiff
 
 setup: install build package-install
