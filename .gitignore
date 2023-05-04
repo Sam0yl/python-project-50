@@ -1,6 +1,7 @@
 .DS_Store
 .venv
 .coverage
+coverage.xml
 dist
 
 .idea
