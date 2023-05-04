@@ -21,7 +21,9 @@ def generate_diff(file1_path, file2_path):
         elif str(file1_data.get(item)) != str(file2_data.get(item)):
             diff += '\n  - ' + str(item) + ': ' + str(file1_data.get(item))
             diff += '\n  + ' + str(item) + ': ' + str(file2_data.get(item))
-    return print('{' + diff.lower() + '\n}')
+    result = '{' + diff.lower() + '\n}'
+    print(result)
+    return result
 
 
 def main():
