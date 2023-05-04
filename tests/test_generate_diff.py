@@ -1,9 +1,13 @@
 from gendiff.scripts.gendiff import generate_diff
 
+diff = ''
+with open('../python-project-50/tests/fixtures/diff.txt', 'r') as test_file:
+    for line in test_file:
+        diff += line
+
 
 def test_generate_diff():
     assert generate_diff(
         '../python-project-50/tests/fixtures/file1.json',
         '../python-project-50/tests/fixtures/file2.json'
-    ) == '{\n  - follow: false\n    host: hexlet.io\n  - proxy: 123.234.53.22\n' \
-         '  - timeout: 50\n  + timeout: 20\n  + verbose: true\n}'
+    ) == diff
