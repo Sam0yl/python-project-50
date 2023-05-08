@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
+from gendiff.parser import parse_file_by_type
 
 
 def generate_diff(file1_path, file2_path):
-    file1_data = json.load(open(file1_path))
-    file2_data = json.load(open(file2_path))
+    file1_data = parse_file_by_type(file1_path)
+    file2_data = parse_file_by_type(file2_path)
     diff = ''
     all_keys_from_files = sorted(
         list(dict.fromkeys(list(file1_data.keys()) + list(file2_data.keys())))
