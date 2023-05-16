@@ -19,7 +19,7 @@ def apply_formate(data, formate):
         return generate_stylish_format(data)
 
 
-def generate_diff_tree(file1_path, file2_path, format_name='stylish'):  # noqa: C901
+def generate_diff(file1_path, file2_path, format_name='stylish'):  # noqa: C901
     file1 = parse_file_by_type(file1_path)
     file2 = parse_file_by_type(file2_path)
 

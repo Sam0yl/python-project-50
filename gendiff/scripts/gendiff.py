@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from gendiff.build_diff_tree import generate_diff_tree
-
-
-def generate_diff(first_file, second_file, style):
-    return generate_diff_tree(first_file, second_file, style)
+from gendiff.build_diff_tree import generate_diff
 
 
 def main():

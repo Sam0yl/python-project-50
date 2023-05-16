@@ -1,5 +1,5 @@
 import json
-from gendiff.build_diff_tree import generate_diff_tree
+from gendiff.build_diff_tree import generate_diff
 from gendiff.parser import parse_file_by_type
 
 
@@ -36,21 +36,21 @@ def test_parse_yaml_by_type():
 
 
 def test_generate_stylish_json_diff():
-    assert generate_diff_tree(
+    assert generate_diff(
         'tests/fixtures/json/file3.json',
         'tests/fixtures/json/file4.json'
     ) == stylish_diff
 
 
 def test_stylish_format_yaml_diff():
-    assert generate_diff_tree(
+    assert generate_diff(
         'tests/fixtures/yaml/file3.yml',
         'tests/fixtures/yaml/file4.yaml'
     ) == stylish_diff
 
 
 def test_plain_format_json_diff():
-    assert generate_diff_tree(
+    assert generate_diff(
         'tests/fixtures/json/file3.json',
         'tests/fixtures/json/file4.json',
         'plain'
@@ -58,7 +58,7 @@ def test_plain_format_json_diff():
 
 
 def test_plain_format_yaml_diff():
-    assert generate_diff_tree(
+    assert generate_diff(
         'tests/fixtures/yaml/file3.yml',
         'tests/fixtures/yaml/file4.yaml',
         'plain'
@@ -66,7 +66,7 @@ def test_plain_format_yaml_diff():
 
 
 def test_json_format_json_diff():
-    assert generate_diff_tree(
+    assert generate_diff(
         'tests/fixtures/json/file3.json',
         'tests/fixtures/json/file4.json',
         'json'
@@ -74,7 +74,7 @@ def test_json_format_json_diff():
 
 
 def test_json_format_yaml_diff():
-    assert generate_diff_tree(
+    assert generate_diff(
         'tests/fixtures/yaml/file3.yml',
         'tests/fixtures/yaml/file4.yaml',
         'json'
@@ -82,14 +82,14 @@ def test_json_format_yaml_diff():
 
 
 def test_fail_generate_stylish_json_diff():
-    assert generate_diff_tree(
+    assert generate_diff(
         'tests/fixtures/json/file3.json',
         'tests/fixtures/json/file4.json'
     ) != plain_diff
 
 
 def test_fail_generate_plain_json_diff():
-    assert generate_diff_tree(
+    assert generate_diff(
         'tests/fixtures/json/file3.json',
         'tests/fixtures/json/file4.json',
         'plain'
