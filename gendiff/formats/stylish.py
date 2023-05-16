@@ -20,7 +20,7 @@ def generate_stylish_dict(diff_tree):  # noqa: C901
     return stylish_dict
 
 
-def stylish(diff_tree):
+def generate_stylish_format(diff_tree):
     stylish_dict = generate_stylish_dict(diff_tree)
     stylish_diff = str(json.dumps(stylish_dict, indent=4))
     chars_for_replace = {

@@ -1,6 +1,7 @@
 from gendiff.parser import parse_file_by_type
-from gendiff.formats.stylish import stylish
-from gendiff.formats.plain import plain
+from gendiff.formats.stylish import generate_stylish_format
+from gendiff.formats.plain import generate_plain_format
+from gendiff.formats.json import generate_json_format
 
 
 def is_common_children(item1, item2):
@@ -10,10 +11,12 @@ def is_common_children(item1, item2):
 
 
 def apply_formate(data, formate):
-    if formate == 'stylish':
-        return stylish(data)
+    if formate == 'json':
+        return generate_json_format(data)
     elif formate == 'plain':
-        return plain(data)
+        return generate_plain_format(data)
+    elif formate == 'stylish':
+        return generate_stylish_format(data)
 
 
 def generate_diff(file1_path, file2_path, format_name='stylish'):  # noqa: C901
