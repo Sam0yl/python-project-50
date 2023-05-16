@@ -11,6 +11,8 @@ def format_value(value):
         return str(value).lower()
     elif value is None:
         return 'null'
+    elif isinstance(value, int):
+        return value
     return "'" + str(value).lower() + "'"
 
 
