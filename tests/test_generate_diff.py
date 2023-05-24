@@ -1,6 +1,6 @@
 import pytest
 import json
-from gendiff.build_diff_tree import generate_diff
+from gendiff.gendiff_engine import generate_diff
 from gendiff.parser import parse_file_by_type
 
 

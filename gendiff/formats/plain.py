@@ -1,7 +1,11 @@
-ADDED = "Property '{file_path}' was added with value: {value}\n"
-REMOVED = "Property '{file_path}' was removed\n"
-CHANGED = "Property '{file_path}' was updated. " \
-          "From {old_value} to {new_value}\n"
+from gendiff.build_diff_tree \
+    import COMMON_CHILD, REMOVED, ADDED, CHANGED, get_status
+
+
+ADDED_STR = "Property '{file_path}' was added with value: {value}\n"
+REMOVED_STR = "Property '{file_path}' was removed\n"
+CHANGED_STR = "Property '{file_path}' was updated. " \
+              "From {old_value} to {new_value}\n"
 
 
 def format_value(value):
@@ -26,23 +30,26 @@ def generate_plain_format(diff):  # noqa: C901
         plain_diff_str = ''
         for key in diff_tree:
             path_key = f'{path}.{key}' if path else key
-            if diff_tree[key].get('diff_status') == 'common_child':
+            if get_status(diff_tree[key]) == COMMON_CHILD:
                 plain_diff_str += build_plain_diff_str(diff_tree[key].get(
                     'common_child_diff_tree'), path_key)
-            elif diff_tree[key].get('diff_status') == 'removed':
-                plain_diff_str += REMOVED.format(file_path=path_key)
-            elif diff_tree[key].get('diff_status') == 'added':
+                continue
+            if get_status(diff_tree[key]) == REMOVED:
+                plain_diff_str += REMOVED_STR.format(file_path=path_key)
+                continue
+            if get_status(diff_tree[key]) == ADDED:
                 added_value = format_value(diff_tree[key].get('added_value'))
-                plain_diff_str += ADDED.format(file_path=path_key,
-                                               value=added_value)
-            elif diff_tree[key].get('diff_status') == 'changed':
+                plain_diff_str += ADDED_STR.format(file_path=path_key,
+                                                   value=added_value)
+                continue
+            if get_status(diff_tree[key]) == CHANGED:
                 added_value = format_value(
                     diff_tree[key].get('added_value'))
                 removed_value = format_value(
                     diff_tree[key].get('removed_value'))
-                plain_diff_str += CHANGED.format(file_path=path_key,
-                                                 old_value=removed_value,
-                                                 new_value=added_value)
+                plain_diff_str += CHANGED_STR.format(file_path=path_key,
+                                                     old_value=removed_value,
+                                                     new_value=added_value)
         return plain_diff_str
     result = remove_last_line_feed(build_plain_diff_str(diff))
     return result
