@@ -24,8 +24,8 @@ def receive_yaml_data(file_path_str):
     return yaml_file_data
 
 
-def parse_file_by_type(file_path_str):
-    if is_json(file_path_str):
-        return receive_json_data(file_path_str)
-    elif is_yaml(file_path_str):
-        return receive_yaml_data(file_path_str)
+def parse_file_by_type(file_path):
+    if is_json(file_path):
+        return receive_json_data(file_path)
+    elif is_yaml(file_path):
+        return receive_yaml_data(file_path)
