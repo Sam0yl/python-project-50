@@ -1,3 +1,4 @@
+import pytest
 import json
 from gendiff.build_diff_tree import generate_diff
 from gendiff.parser import parse_file_by_type
@@ -25,72 +26,46 @@ json_diff = make_json_diff()
 
 def test_parse_json_by_type():
     assert parse_file_by_type(
-        'tests/fixtures/json/file2.json'
+        'tests/fixtures/json/file4.json'
     ) == {'timeout': 20, 'verbose': True, 'host': 'hexlet.io'}
 
 
 def test_parse_yaml_by_type():
     assert parse_file_by_type(
-        'tests/fixtures/yaml/file2.yaml'
+        'tests/fixtures/yaml/file4.yaml'
     ) == {'timeout': 20, 'verbose': True, 'host': 'hexlet.io'}
 
 
-def test_generate_stylish_json_diff():
-    assert generate_diff(
-        'tests/fixtures/json/file3.json',
-        'tests/fixtures/json/file4.json'
-    ) == stylish_diff
+JSON_FILE1 = 'tests/fixtures/json/file1.json'
+JSON_FILE2 = 'tests/fixtures/json/file2.json'
+YAML_FILE1 = 'tests/fixtures/yaml/file1.yml'
+YAML_FILE2 = 'tests/fixtures/yaml/file2.yaml'
+STYLE_FORMAT = (
+    'stylish',
+    'plain',
+    'json'
+)
 
 
-def test_stylish_format_yaml_diff():
-    assert generate_diff(
-        'tests/fixtures/yaml/file3.yml',
-        'tests/fixtures/yaml/file4.yaml'
-    ) == stylish_diff
-
-
-def test_plain_format_json_diff():
-    assert generate_diff(
-        'tests/fixtures/json/file3.json',
-        'tests/fixtures/json/file4.json',
-        'plain'
-    ) == plain_diff
-
-
-def test_plain_format_yaml_diff():
-    assert generate_diff(
-        'tests/fixtures/yaml/file3.yml',
-        'tests/fixtures/yaml/file4.yaml',
-        'plain'
-    ) == plain_diff
-
-
-def test_json_format_json_diff():
-    assert generate_diff(
-        'tests/fixtures/json/file3.json',
-        'tests/fixtures/json/file4.json',
-        'json'
-    ) == json_diff
-
-
-def test_json_format_yaml_diff():
-    assert generate_diff(
-        'tests/fixtures/yaml/file3.yml',
-        'tests/fixtures/yaml/file4.yaml',
-        'json'
-    ) == json_diff
-
-
-def test_fail_generate_stylish_json_diff():
-    assert generate_diff(
-        'tests/fixtures/json/file3.json',
-        'tests/fixtures/json/file4.json'
-    ) != plain_diff
-
-
-def test_fail_generate_plain_json_diff():
-    assert generate_diff(
-        'tests/fixtures/json/file3.json',
-        'tests/fixtures/json/file4.json',
-        'plain'
-    ) != stylish_diff
+@pytest.mark.parametrize("file1,file2,style_format,expected_result", [
+    (JSON_FILE1, JSON_FILE2, STYLE_FORMAT[0], stylish_diff),
+    (JSON_FILE1, JSON_FILE2, STYLE_FORMAT[1], plain_diff),
+    (JSON_FILE1, JSON_FILE2, STYLE_FORMAT[2], json_diff),
+    (YAML_FILE1, YAML_FILE2, STYLE_FORMAT[0], stylish_diff),
+    (YAML_FILE1, YAML_FILE2, STYLE_FORMAT[1], plain_diff),
+    (YAML_FILE1, YAML_FILE2, STYLE_FORMAT[2], json_diff),
+    pytest.param(
+        JSON_FILE1,
+        JSON_FILE2,
+        STYLE_FORMAT[0], plain_diff, marks=pytest.mark.xfail),
+    pytest.param(
+        JSON_FILE1,
+        JSON_FILE2,
+        STYLE_FORMAT[1], json_diff, marks=pytest.mark.xfail),
+    pytest.param(
+        JSON_FILE1,
+        JSON_FILE2,
+        STYLE_FORMAT[2], stylish_diff, marks=pytest.mark.xfail),
+])
+def test_generate_diff(file1, file2, style_format, expected_result):
+    assert generate_diff(file1, file2, style_format) == expected_result
